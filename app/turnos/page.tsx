@@ -167,13 +167,13 @@ const turnoPaso = (fecha: string, hora: string) => {
   };
 
   return (
-  <div className="min-h-screen bg-[#FFFFF0] p-4 md:p-10">
+  <div className="page">
     <div className="flex justify-between items-center mb-6">
-  <h1 className="text-2xl font-bold text-[#332921]">Turnos</h1>
+  <h1 className="text-2xl font-bold">Turnos</h1>
 
   <button
     onClick={cerrarSesion}
-    className="bg-gray-200 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition cursor-pointer"
+    className="btn btn-muted text-sm"
   >
     Cerrar sesión
   </button>
@@ -182,21 +182,21 @@ const turnoPaso = (fecha: string, hora: string) => {
   <div className="flex gap-3 mb-6">
     <button
       onClick={() => setAdminModal("agregar")}
-      className="bg-green-600 text-white px-4 py-2 rounded"
+      className="btn btn-admin-add"
     >
       Agregar turno
     </button>
 
     <button
       onClick={() => setAdminModal("eliminar")}
-      className="bg-red-600 text-white px-4 py-2 rounded"
+      className="btn btn-admin-delete"
     >
       Eliminar turno
     </button>
 
     <button
       onClick={() => setModalRenovar(true)}
-      className="bg-[#332921] text-white px-4 py-2 rounded cursor-pointer hover:opacity-90"
+      className="btn btn-admin-renew"
     >
       Renovar semana
     </button>
@@ -205,14 +205,14 @@ const turnoPaso = (fecha: string, hora: string) => {
     {/* GRILLA */}
     <div className="overflow-x-auto">
       <div
-        className="grid gap-2"
+        className="turnos-grid"
         style={{
           gridTemplateColumns: `repeat(${diasSemana.length}, minmax(100px, 1fr))`,
         }}
       >
         {/* HEADER */}
         {diasSemana.map((fecha) => (
-          <div key={fecha} className="text-center font-medium text-[#332921]">
+          <div key={fecha} className="turnos-header">
             {formatearFecha(fecha)}
           </div>
         ))}
@@ -233,9 +233,9 @@ const turnoPaso = (fecha: string, hora: string) => {
             let title = "";
 
             if (anotado) {
-              estilo = "bg-green-500 text-white";
+              estilo = "turno-reservado";
             } else if (lleno || paso) {
-              estilo = "bg-red-400 text-white";
+              estilo = "turno-no-disponible";
               disabled = true;
               title = "Clase no disponible";
             }
@@ -270,8 +270,8 @@ const turnoPaso = (fecha: string, hora: string) => {
 
     {/* MODAL */}
     {modal && (
-      <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-xl">
+      <div className="modal-bg">
+        <div className="modal">
           <p className="mb-4">
             {modal.tipo === "anotar"
               ? "¿Confirmar reserva?"
@@ -284,14 +284,14 @@ const turnoPaso = (fecha: string, hora: string) => {
 
           <div className="flex gap-2">
             <button
-              className="bg-gray-200 px-4 py-2 rounded cursor-pointer hover:opacity-90"
+              className="btn-modal"
               onClick={() => setModal(null)}
             >
               Cancelar
             </button>
 
             <button
-              className="bg-[#48CDC1] px-4 py-2 rounded cursor-pointer hover:opacity-90"
+              className="btn-turno"
               onClick={confirmarAccion}
             >
               Confirmar
@@ -302,11 +302,11 @@ const turnoPaso = (fecha: string, hora: string) => {
     )}
     {adminModal === "agregar" && (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-xl w-80">
+        <div className="modal modal-sm">
           <h2 className="mb-4 font-bold">Agregar turno</h2>
 
           <select
-            className="w-full mb-3 border p-2"
+            className="select select-lg"
             onChange={(e) => setNuevoDia(e.target.value)}
           >
             <option value="">Seleccionar día</option>
@@ -318,7 +318,7 @@ const turnoPaso = (fecha: string, hora: string) => {
           </select>
 
           <select
-            className="w-full mb-4 border p-2"
+            className="select select-sm"
             onChange={(e) => setNuevaHora(e.target.value)}
           >
             <option value="">Seleccionar hora</option>
@@ -331,14 +331,14 @@ const turnoPaso = (fecha: string, hora: string) => {
 
           <div className="flex gap-2">
             <button
-              className="bg-gray-200 px-4 py-2 rounded"
+              className="btn-modal"
               onClick={() => setAdminModal(null)}
             >
               Cancelar
             </button>
 
             <button
-              className="bg-green-600 text-white px-4 py-2 rounded"
+              className="btn btn-admin-add"
               onClick={async () => {
                 if (!nuevoDia || !nuevaHora) return;
 
@@ -367,7 +367,7 @@ const turnoPaso = (fecha: string, hora: string) => {
     )}
     {adminModal === "eliminar" && (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-xl w-80">
+        <div className="modal modal-sm">
           <h2 className="mb-4 font-bold">Eliminar turno</h2>
 
           <select
@@ -384,14 +384,14 @@ const turnoPaso = (fecha: string, hora: string) => {
 
           <div className="flex gap-2">
             <button
-              className="bg-gray-200 px-4 py-2 rounded"
+              className="btn-modal"
               onClick={() => setAdminModal(null)}
             >
               Cancelar
             </button>
 
             <button
-              className="bg-red-600 text-white px-4 py-2 rounded"
+              className="btn btn-admin-delete"
               onClick={async () => {
                 if (!nuevoDia) return;
 
@@ -433,7 +433,7 @@ const turnoPaso = (fecha: string, hora: string) => {
         <div className="flex justify-end gap-3">
           <button
             onClick={() => setModalRenovar(false)}
-            className="px-4 py-2 bg-gray-200 rounded cursor-pointer"
+            className="btn-modal"
             disabled={loadingRenovar}
           >
             Cancelar
@@ -465,7 +465,7 @@ const turnoPaso = (fecha: string, hora: string) => {
               setLoadingRenovar(false);
               setModalRenovar(false);
             }}
-            className="px-4 py-2 bg-red-600 text-white rounded flex items-center justify-center min-w-[110px]"
+            className="btn btn-admin-delete"
             disabled={loadingRenovar}
           >
             {loadingRenovar ? (

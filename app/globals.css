@@ -1,26 +1,244 @@
 @import "tailwindcss";
+@tailwind utilities;
 
+/* 🎨 COLORES DEL PROYECTO */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg: #FFFFF0;
+  --color-text: #332921;
+  --color-primary: #48CDC1;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  --color-muted: #e5e5e5;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ❌ Desactivamos dark mode automático */
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* -------------------- */
+/* PAGE LAYOUT */
+/* -------------------- */
+
+.page {
+  min-height: 100vh;
+  padding: 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2.5rem;
+  }
+}
+
+/* -------------------- */
+/* BOTONES */
+/* -------------------- */
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+
+
+.btn-primary {
+  background: var(--color-primary);
+  color: black;
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn-success {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn-muted {
+  background: var(--color-muted);
+  color: black;
+}
+
+.btn-muted:hover {
+  background: lightgray
+}
+
+/* botones admin específicos */
+
+.btn-admin-add,
+.btn-admin-delete,
+.btn-admin-renew {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.btn-admin-add {
+  background: #16a34a;
+  color: white;
+}
+
+.btn-admin-delete {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-admin-renew {
+  background: var(--color-text);
+  color: white;
+}
+
+.btn-admin-add:hover {
+  opacity: 0.8;
+}
+
+.btn-admin-delete:hover {
+  opacity: 0.8;
+}
+
+.btn-admin-renew:hover {
+  opacity: 0.8;
+}
+
+/* -------------------- */
+/* MODALES */
+/* -------------------- */
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  color: var(--color-text);
+}
+
+.modal-sm {
+  width: 20rem;
+}
+
+.modal-md {
+  width: 24rem;
+}
+
+.btn-modal {
+  padding: 0.5rem 1rem;   /* py-2 px-4 → 8px vertical, 16px horizontal */
+  background-color: #e5e7eb; /* bg-gray-200 → gris claro */
+  border-radius: 0.25rem; /* rounded → 4px */
+  cursor: pointer;        /* cursor-pointer */
+}
+
+.btn-modal:hover {
+  background-color: lightgrey;
+}
+
+.btn-turno {
+  background-color: #48CDC1; /* bg-[#48CDC1] */
+  padding: 0.5rem 1rem;      /* py-2 px-4 → 8px vertical, 16px horizontal */
+  border-radius: 0.25rem;    /* rounded → 4px */
+  cursor: pointer;           /* cursor-pointer */
+  transition: opacity 0.2s ease-in-out; /* para suavizar el hover */
+}
+
+.btn-turno:hover {
+  opacity: 0.8; /* hover:opacity-90 */
+}
+
+
+/* -------------------- */
+/* FORM */
+/* -------------------- */
+
+.select {
+  width: 100%;
+  border: 1px solid black;
+  padding: 0.5rem;
+}
+
+.select-sm {
+  margin-bottom: 0.75rem;
+}
+
+.select-lg {
+  margin-bottom: 1rem;
+}
+
+/* -------------------- */
+/* GRID TURNOS */
+/* -------------------- */
+
+.turnos-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.turnos-header {
+  text-align: center;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.turno-btn {
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* estados del turno */
+
+.turno-disponible {
+  background: var(--color-primary);
+  color: black;
+}
+
+.turno-reservado {
+  background: var(--color-success);
+  color: white;
+}
+
+.turno-no-disponible {
+  background: #f87171;
+  color: white;
+}
+
+/* estados de interacción */
+
+.turno-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.turno-hover {
+  cursor: pointer;
+}
+
+.turno-hover:hover {
+  opacity: 0.8;
 }
