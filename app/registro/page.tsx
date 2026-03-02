@@ -43,7 +43,7 @@ export default function Registro() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFFF0]">
       {/* LOGO */}
       <img
-        src="/logo_negro_sinfondo.png"
+        src="/logo_negro_sinfondo.PNG"
         alt="Logo"
         className="w-50 mb-6"
       />
