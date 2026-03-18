@@ -161,7 +161,7 @@ export default function Turnos() {
       if (!error) {
         toast.success("Reserva cancelada");
       } else {
-        toast.error("Error al cancelar reserva");
+        toast.error("Error al borrar reserva");
       }
     }
 
@@ -299,11 +299,12 @@ export default function Turnos() {
               if (anotado) {
                 estilo = "turno-reservado";
               } else if (lleno || paso) {
-                estilo = "turno-no-disponible";
-                disabled = true;
-                title = "Clase no disponible";
+                  estilo = "turno-no-disponible";
+                  if (!esAdmin){
+                    disabled = true;
+                    title = "Clase no disponible";
+                  }
               }
-
               return (
                 <button
                   key={fecha + hora}
@@ -342,7 +343,7 @@ export default function Turnos() {
             <p className="mb-4">
               {modal.tipo === "anotar"
                 ? "¿Confirmar reserva?"
-                : "¿Cancelar reserva?"}
+                : "Borrar reserva?"}
             </p>
 
             <p className="mb-4 font-medium">
@@ -356,13 +357,15 @@ export default function Turnos() {
               >
                 Cancelar
               </button>
-
-              <button
-                className="btn-turno"
-                onClick={confirmarAccion}
-              >
-                Confirmar
-              </button>
+                {modal.tipo === "anotar" ? (
+                  <button className="btn-turno" onClick={confirmarAccion}>
+                    Confirmar
+                  </button>
+                ) : (
+                  <button className="btn-admin-delete" onClick={confirmarAccion}>
+                    Confirmar
+                  </button>
+                )}
             </div>
           </div>
         </div>
