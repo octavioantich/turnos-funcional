@@ -107,6 +107,12 @@ export default function Turnos() {
     return inscripciones.filter((i) => i.turno_id === turnoId).length;
   };
 
+  const tieneReservaEnElDia = (fecha: string) => {
+    if (!dni) return false;
+
+    return turnos.some((turno) => turno.fecha === fecha && estaAnotado(turno.id));
+  };
+
   // 🔥 FUNCIÓN CORREGIDA
   const turnoPaso = (fecha: string, hora: string) => {
     const ahora = new Date();
@@ -291,6 +297,8 @@ export default function Turnos() {
               const inscriptosCount = cantidadInscriptos(turno.id);
               const lleno = inscriptosCount >= turno.capacidad;
               const paso = turnoPaso(turno.fecha, turno.hora);
+              const reservaEnEseDia = tieneReservaEnElDia(fecha);
+              const diaBloqueado = !esAdmin && reservaEnEseDia && !anotado;
 
               let estilo = "bg-[#48CDC1] text-black";
               let disabled = false;
@@ -304,6 +312,9 @@ export default function Turnos() {
                     disabled = true;
                     title = "Clase no disponible";
                   }
+              } else if (diaBloqueado) {
+                disabled = true;
+                title = "Ya tenés una reserva en este día";
               }
               return (
                 <button
